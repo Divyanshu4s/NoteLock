@@ -17,9 +17,9 @@ const Login = () => {
 
     try {
       const res = await login({ email, password });
-      // On success, backend sends userId and tells us to check OTP
-      localStorage.setItem('notelock_temp_userId', res.data.userId);
-      navigate('/verify-otp');
+      // Bypass OTP
+      localStorage.setItem('notelock_user', JSON.stringify(res.data));
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {

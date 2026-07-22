@@ -67,32 +67,18 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-      // Generate OTP
-      const otpCode = generateOTP();
-      
-      // Save OTP to DB (valid for 10 minutes)
-      await OTP.create({
-        userId: user._id,
-        otp: otpCode,
-        expiresAt: new Date(Date.now() + 10 * 60 * 1000)
-      });
-
-      // Send Email
-      try {
-        await sendEmail({
-          email: user.email,
-          subject: 'NoteLock - Your OTP Verification Code',
-          message: `Your login OTP is ${otpCode}. It will expire in 10 minutes.`
-        });
-        
-        res.status(200).json({
-          message: 'OTP sent to your email',
-          userId: user._id
-        });
-      } catch (emailError) {
-        console.error('Email error:', emailError);
-        res.status(500).json({ message: 'Email could not be sent' });
+      // Bypass OTP completely to avoid Render email block
+      if (!user.isVerified) {
+        user.isVerified = true;
+        await user.save();
       }
+
+      res.status(200).json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }
