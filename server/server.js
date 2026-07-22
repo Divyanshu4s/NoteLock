@@ -11,6 +11,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.set('trust proxy', 1); // Trust Render proxy for rate limiter
 
 // Middleware
 app.use(express.json());
