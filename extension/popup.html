@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NoteLock</title>
+  <style>
+    body {
+      width: 300px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      color: #111827;
+      background: #f9fafb;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .logo {
+      background: #eef2ff;
+      color: #4f46e5;
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      background: #4f46e5;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .btn:hover {
+      background: #4338ca;
+    }
+    .btn-outline {
+      background: white;
+      color: #4b5563;
+      border: 1px solid #d1d5db;
+      margin-top: 8px;
+    }
+    .btn-outline:hover {
+      background: #f3f4f6;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444; /* red by default */
+    }
+    .status-dot.active {
+      background: #22c55e; /* green when active */
+    }
+    #auth-section { display: none; }
+    #login-section { display: block; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">NL</div>
+    <div class="title">NoteLock</div>
+  </div>
+
+  <div class="card">
+    <div class="status">
+      <div id="status-dot" class="status-dot"></div>
+      <span id="status-text">Not Connected</span>
+    </div>
+
+    <div id="login-section">
+      <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">
+        Link this extension to your NoteLock account to enable autofill and saving.
+      </p>
+      <input type="text" id="token-input" placeholder="Paste your JWT token here" style="width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 8px; border: 1px solid #d1d5db; border-radius: 6px;" />
+      <button id="save-token-btn" class="btn">Connect Account</button>
+      <a href="http://localhost:5173/dashboard" target="_blank" class="btn btn-outline" style="box-sizing: border-box;">Open NoteLock Web</a>
+      <p style="font-size: 12px; color: #9ca3af; margin-top: 12px;">
+        To get your token: Log into the web app, open Developer Tools (F12) -> Application -> Local Storage, and copy the "token" value from "notelock_user". (In a real app, this would use OAuth or message passing to sync).
+      </p>
+    </div>
+
+    <div id="auth-section">
+      <p style="font-size: 14px; color: #4b5563; margin-bottom: 16px;">
+        You are securely connected to your NoteLock vault.
+      </p>
+      <button id="logout-btn" class="btn btn-outline">Disconnect</button>
+      <a href="http://localhost:5173/vault" target="_blank" class="btn" style="box-sizing: border-box;">Open Vault</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
