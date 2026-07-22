@@ -185,7 +185,7 @@ setTimeout(() => {
   checkPendingSave();
   
   // Auto-sync token if on NoteLock website
-  if (window.location.href.includes('localhost:5173')) {
+  if (window.location.href.includes('note-lock-three.vercel.app')) {
     const userStr = localStorage.getItem('notelock_user');
     if (userStr) {
       try {

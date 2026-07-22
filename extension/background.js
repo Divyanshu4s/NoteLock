@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://notelock-hfuy.onrender.com/api';
 
 // Listen for messages from content scripts or popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
