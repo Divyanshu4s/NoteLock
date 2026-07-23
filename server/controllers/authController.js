@@ -38,7 +38,7 @@ const signup = async (req, res) => {
       name,
       email,
       passwordHash: password, // Pre-save hook will hash it
-      isVerified: false
+      isVerified: true
     });
 
     if (user) {
@@ -46,7 +46,8 @@ const signup = async (req, res) => {
         _id: user.id,
         name: user.name,
         email: user.email,
-        message: 'Registration successful. Please login to receive OTP.'
+        token: generateToken(user._id),
+        message: 'Registration successful.'
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
@@ -56,7 +57,7 @@ const signup = async (req, res) => {
   }
 };
 
-// @desc    Authenticate a user & send OTP
+// @desc    Authenticate a user
 // @route   POST /api/auth/login
 // @access  Public
 const login = async (req, res) => {
@@ -67,7 +68,7 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-      // Bypass OTP completely to avoid Render email block
+      // Ensure user is verified
       if (!user.isVerified) {
         user.isVerified = true;
         await user.save();

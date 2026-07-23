@@ -17,7 +17,6 @@ const Login = () => {
 
     try {
       const res = await login({ email, password });
-      // Bypass OTP
       localStorage.setItem('notelock_user', JSON.stringify(res.data));
       navigate('/dashboard');
     } catch (err) {
